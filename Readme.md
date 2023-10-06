@@ -24,4 +24,4 @@
 - [x] Menggunakan GitHub untuk mengelola repository (30 points)
 
 ## Flowchart
-![Tux, the Linux mascot](/flowchart.jpeg)
+![Tux, the Linux](/flowchart.jpeg)
