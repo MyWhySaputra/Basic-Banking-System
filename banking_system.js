@@ -1,5 +1,6 @@
 class BankAccount {
     constructor(params) {
+        // implementasi Abstraction
         if (this.constructor === BankAccount) {
             throw new Error("Cannot Access");
         }
@@ -9,28 +10,41 @@ class BankAccount {
 
     deposit(angka) {
         setTimeout(() => {
-            this.saldo += angka;
-            document.getElementById("saldo").textContent = this.saldo;
-            setTimeout(() => {
-                alert(`Anda deposit sebesar ${angka}, Saldo anda saat ini sebesar ${this.saldo}`);
-            }, 2000);
-        }, 2000); // Simulate a 2-second delay
+            this.saldo += angka; // rumus
+            document.getElementById("saldo").textContent = this.saldo; // mengirim saldo setelah deposit
+        }, 2000); // setTimeout 2 detik
     }
 
     withdraw(angka) {
         setTimeout(() => {
-            this.saldo -= angka;
-            document.getElementById("saldo").textContent = this.saldo;
-            setTimeout(() => {
-                alert(`Anda withdraw sebesar ${angka}, Saldo anda saat ini sebesar ${this.saldo}`);
-            }, 2000);
-        }, 2000); // Simulate a 2-second delay
+            this.saldo -= angka; // rumus
+            document.getElementById("saldo").textContent = this.saldo; // mengirim saldo setelah withdraw
+        }, 2000); // setTimeout 2 detik
     }
 }
 
-class Proses extends BankAccount {
+// implementasi Polymorphism
+// class Alert
+const Alert = Base => class extends Base {
+    deposit(angka) {
+        super.deposit(angka); // class BankAccount
+        setTimeout(() => {
+            alert(`Anda deposit sebesar ${angka}, Saldo anda saat ini sebesar ${this.saldo}`);
+        }, 4000); // setTimeout 4 detik
+    }
+
+    withdraw(angka) {
+        super.withdraw(angka); // class BankAccount
+        setTimeout(() => {
+            alert(`Anda withdraw sebesar ${angka}, Saldo anda saat ini sebesar ${this.saldo}`);
+        }, 4000); // setTimeout 4 detik
+    }
+}
+
+// Implementasi Polymorphism & Inheritance
+class TryCatch extends Alert(BankAccount) {
     constructor(params) {
-        super(params);
+        super(params); // class BankAccount
     }
 
     deposit(angka) {
@@ -41,7 +55,7 @@ class Proses extends BankAccount {
             if (angka <= 0) {
                 throw new Error(alert("Saldo harus lebih besar dari 0"));
             }
-            super.deposit(angka);
+            super.deposit(angka); // class Alert
         } catch (error) {
             console.error(error.message);
         }
@@ -56,21 +70,21 @@ class Proses extends BankAccount {
                 throw new Error(alert("Saldo harus lebih besar dari 0"));
             }
             if (angka > this.saldo) {
-                throw new Error(alert(`Saldo tidak cukup untuk withdraw sebesar ${angka}`));
+                throw new Error(alert(`Saldo tidak cukup. Saldo saat ini sebesar ${this.saldo}`));
             }
-            super.withdraw(angka);
+            super.withdraw(angka); // class Alert
         } catch (error) {
             console.error(error.message);
         }
     }
 }
 
-const account = new Proses({saldo:0});
+const user = new TryCatch({ saldo: 0 }); // deklarasi class TryCatch dengan parameter { saldo: 0 }
 
 function deposit() {
     try {
         const depositInput = parseFloat(prompt("Masukkan jumlah saldo yang ingin ditambahkan"));
-        account.deposit(depositInput);
+        user.deposit(depositInput);
     } catch (error) {
         console.error(error.message);
     }
@@ -79,7 +93,7 @@ function deposit() {
 function withdraw() {
     try {
         const withdrawInput = parseFloat(prompt("Masukkan jumlah saldo yang ingin dikurangi"));
-        account.withdraw(withdrawInput);
+        user.withdraw(withdrawInput);
     } catch (error) {
         console.error(error.message);
     }
