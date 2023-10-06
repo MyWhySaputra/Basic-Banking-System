@@ -21,10 +21,6 @@ class BankAccount {
             document.getElementById("saldo").textContent = this.saldo; // mengirim saldo setelah withdraw
         }, 2000); // setTimeout 2 detik
     }
-
-    _protectedMethod() {
-        
-    }
 }
 
 // implementasi Polymorphism
